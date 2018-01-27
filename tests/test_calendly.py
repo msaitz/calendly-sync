@@ -1,28 +1,30 @@
 import unittest
-from lib import calendly
+from model import calendly
 
 
 class TestCalendly(unittest.TestCase):
 
     def setUp(self):
-            self.w = calendly.CalendlyEvent()
+            self.event = calendly.CalendlyEvent()
 
     def test_echo(self):
-        self.assertTrue(self.w.echo())
+        self.assertTrue(self.event.echo())
 
     def test_get_subscriptions(self):
-        self.assertTrue(self.w.get_subscriptions())
+        self.assertTrue(self.event.get_subscriptions())
 
     def test_getters(self):
         with open('datafiles/raw_data') as content:
             data = content.read()
 
-        self.w.add_event(data)
-        self.assertEqual(self.w.name, 'Test McTest')
-        self.assertEqual(self.w.time, '10:15')
-        #self.assertEqual(self.w.time_index, 7)
-        #self.assertEqual(self.w.date, 'Thursday, February 1, 2018')
-        self.assertEqual(self.w.event_type, 'mobilehandover')
+        self.event.add_event(data)
+        self.assertEqual(self.event.name, 'Test McTest')
+        self.assertEqual(self.event.time, '10:15')
+        self.assertEqual(self.event.day, '01')
+        self.assertEqual(self.event.month, '02')
+        self.assertEqual(self.event.year, '18')
+        self.assertEqual(self.event.time_index, 1)
+        self.assertEqual(self.event.event_type, 'mobilehandover')
 
 
 if __name__ == '__main__':
