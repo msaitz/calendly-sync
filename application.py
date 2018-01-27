@@ -1,13 +1,14 @@
 from klein import run, route
-import json
+from model import calendly
 
 
 @route('/', methods=['POST'])
 def do_post(request):
-    content = json.loads(request.content.read())
-    response = json.dumps(dict(the_data=content))
-    print(response)
-    return response
+    event = calendly.CalendlyEvent()
+    event.add_event(request)
+
+    print(event.name + ' ' + event.time + ' ' + event.day + ' ' + event.month)
+    print(event.event_type)
 
 
 run("localhost", 8080)

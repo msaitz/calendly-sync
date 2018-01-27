@@ -59,7 +59,6 @@ class CalendlyEvent:
             self._name = formatted_data['invitee']['name']
             self._date = self._parse_date(formatted_data)
             self._time_index = self._get_time_index(self._date.strftime('%H:%M'))
-            #self._time = self._parse_time(formatted_data)
             self._event_type = formatted_data['event_type']['slug']
             return True
         else:
