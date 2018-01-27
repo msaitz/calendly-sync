@@ -51,8 +51,7 @@ class CalendlyEvent:
             return None
 
     def add_event(self, data):
-        data = self._parse_raw_data(data)
-        formatted_data = data['the_data']
+        formatted_data = self._parse_raw_data(data)
 
         if formatted_data['event'] == 'invitee.created':
             formatted_data = formatted_data['payload']

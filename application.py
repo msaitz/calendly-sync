@@ -4,11 +4,12 @@ from model import calendly
 
 @route('/', methods=['POST'])
 def do_post(request):
+    content = request.content.read().decode('utf8')
     event = calendly.CalendlyEvent()
-    event.add_event(request)
+    event.add_event(content)
 
     print(event.name + ' ' + event.time + ' ' + event.day + ' ' + event.month)
     print(event.event_type)
 
 
-run("localhost", 8080)
+run("localhost", 80)
