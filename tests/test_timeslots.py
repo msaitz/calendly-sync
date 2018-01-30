@@ -3,7 +3,6 @@ from model import timeslots
 
 
 class TestTimeslots(unittest.TestCase):
-
     def setUp(self):
         self.slots = timeslots.TimeSlots()
 

@@ -1,9 +1,9 @@
-import unittest
 from model import calendly
+import unittest
+import helpers
 
 
 class TestCalendly(unittest.TestCase):
-
     def setUp(self):
             self.event = calendly.CalendlyEvent()
 
@@ -14,10 +14,7 @@ class TestCalendly(unittest.TestCase):
         self.assertTrue(self.event.get_subscriptions())
 
     def test_getters(self):
-        with open('datafiles/raw_data') as content:
-            data = content.read()
-
-        self.event.add_event(data)
+        self.event.add_event(helpers.load_file('raw_data'))
         self.assertEqual(self.event.name, 'Test McTest')
         self.assertEqual(self.event.time, '10:15')
         self.assertEqual(self.event.day, '01')

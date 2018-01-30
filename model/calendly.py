@@ -1,12 +1,12 @@
+from model import timeslots
 import requests
 import datetime
-
-from model import timeslots
+import helpers
 
 
 class CalendlyEvent:
     def __init__(self):
-        self.api_key = {'X-TOKEN': 'LIMHDEAGLGPFC4XOFLYO23CPYNKOMNBD'}
+        self.api_key = {'X-TOKEN': helpers.load_file('apikey.txt')}
         self._name = None
         self._date = None
         self._time_index = None

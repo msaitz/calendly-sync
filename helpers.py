@@ -1,9 +1,9 @@
-import json
+from os import path
 
 
-def convert_to_jason(string):
-    #if string[0] is "'":
-    #    formatted_str = string.replace("'", "\"")
-    return json.load(string)
-    #else:
-    #    return ''
+def load_file(filename):
+    basepath = path.dirname(__file__)
+    filepath = path.abspath(path.join(basepath, 'static/' + filename))
+    with open(filepath) as file:
+        api_key = file.readline()
+    return api_key
