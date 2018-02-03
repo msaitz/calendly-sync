@@ -1,5 +1,4 @@
 from os import path
-from oauth2client.service_account import ServiceAccountCredentials
 
 
 def load_file(filename):

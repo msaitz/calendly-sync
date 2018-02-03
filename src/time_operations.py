@@ -18,16 +18,12 @@ def get_time_index(time):
 
 
 def get_next_monday(day):
-    monday = 0
-    days_ahead = monday - day.weekday()
-    if days_ahead <= 0:
-        days_ahead += 7
+    days_ahead = (day.weekday() * -1) + 7
     return day + datetime.timedelta(days_ahead)
 
 
 def get_this_monday(day):
-    days_ahead = day.weekday() * -1
-    return day + datetime.timedelta(days_ahead)
+    return day + datetime.timedelta(day.weekday() * -1)
 
 
 def get_full_week(day):
