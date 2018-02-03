@@ -1,5 +1,5 @@
 from klein import run, route
-from model import calendly
+from src import calendly
 
 
 @route('/', methods=['POST'])

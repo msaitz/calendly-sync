@@ -1,4 +1,4 @@
-from model import calendly
+from src import calendly
 import unittest
 import helpers
 

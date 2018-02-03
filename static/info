@@ -1,0 +1,4 @@
+This directory must contain:
+- 'apikey.txt' - calendly token
+- 'client_secret.json' - gdrive authentication token
+- raw data files from calendly for testing purposes
