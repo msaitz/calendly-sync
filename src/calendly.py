@@ -13,6 +13,9 @@ class CalendlyEvent:
         self._event_type = None
 
     @property
+    def date(self): return self._date
+
+    @property
     def name(self): return self._name
 
     @property
@@ -57,7 +60,7 @@ class CalendlyEvent:
             formatted_data = formatted_data['payload']
             self._name = formatted_data['invitee']['name']
             self._date = parse_date(formatted_data)
-            self._time_index = time_operations.get_time_index(self._date.strftime('%H:%M'))
+            self._time_index = time_operations.time_index(self._date.strftime('%H:%M'))
             self._event_type = formatted_data['event_type']['slug']
             return True
         else:

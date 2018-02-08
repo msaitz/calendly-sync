@@ -1,19 +1,28 @@
-from src import gsheet
+from src.gsheet import *
 import unittest
+import datetime
 
 
 class TestGsheet(unittest.TestCase):
     def setUp(self):
-        self.sheet = gsheet.Gsheet()
+        self.client = authenticate()
+        self.sheet = open_sheet(self.client, 'py test')
+        self.worksheet = open_sheet(self.client, 'py test', 'test')
 
     def test_read_write_value(self):
-        sheet = self.sheet.client.open('py test')
-        test_ws = sheet.worksheet('test')
-        test_ws.update_cell(3, 3, 'yeah')
-        self.assertEqual(test_ws.cell(3, 3,).value, 'yeah')
+        write_event(self.worksheet, 'Miguel')
+        self.assertEqual(self.worksheet.cell(1, 1, ).value, 'Miguel')
+        delete_event(self.worksheet)
 
-    def create_month(self):
-        pass
+    def test_add_workshet_write_month(self):
+        new_worksheet = create_month(self.sheet, 1)
+        worksheets = self.sheet.worksheets()
+        self.assertTrue(new_worksheet in worksheets)
+
+        self.assertEqual(new_worksheet.cell(1, 1).value, '01/01/18')
+        self.assertEqual(new_worksheet.cell(1, 16).value, '22/01/18')
+
+        self.sheet.del_worksheet(new_worksheet)
 
 
 if __name__ == '__main__':

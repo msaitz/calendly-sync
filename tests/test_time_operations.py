@@ -1,21 +1,39 @@
-from src import time_operations
+from src.time_operations import *
+from datetime import datetime
 import unittest
-import datetime
 
 
 class TestTimeOperations(unittest.TestCase):
-    def setUp(self):
-        self.slots = time_operations.get_timeslots()
 
     def test_timeSlot(self):
+        self.slots = get_timeslots()
         self.assertEqual(len(self.slots), 24)
         self.assertEqual(self.slots['10:00'], 0)
         self.assertEqual(self.slots['15:45'], 23)
 
-    def test_monday(self):
-        self.day = datetime.datetime(2018, 1, 5)
-        self.next_monday = datetime.datetime(2018, 1, 8)
-        self.this_monday = datetime.datetime(2018, 1, 1)
-        self.assertEqual(time_operations.get_next_monday(self.day), self.next_monday)
-        self.assertEqual(time_operations.get_this_monday(self.day), self.this_monday)
+    def test_next_monday(self):
+        self.day = datetime(2018, 1, 5)
+        self.next_monday = datetime(2018, 1, 8)
+        self.assertEqual(next_monday(self.day), self.next_monday)
 
+    def test_full_week(self):
+        self.mondayA = datetime(2018, 1, 6)
+        self.mondayB = datetime(2018, 1, 8)
+        self.friday = datetime(2018, 1, 12)
+        weekdays = full_week(self.mondayA)
+        self.assertEqual(weekdays[0], self.mondayB)
+        self.assertEqual(weekdays[4], self.friday)
+
+    # test will fail after 2018!
+    def test_first_monday_month(self):
+        self.assertEqual(first_monday_month(1).day, 1)
+        self.assertEqual(first_monday_month(5).day, 7)
+        self.assertEqual(first_monday_month(8).day, 6)
+        self.assertEqual(first_monday_month(12).day, 3)
+
+    # test will fail too after 2018!
+    def test_number_mondays_month(self):
+        self.assertEqual(number_mondays_month(1), 5)
+        self.assertEqual(number_mondays_month(2), 4)
+        self.assertEqual(number_mondays_month(4), 5)
+        self.assertEqual(number_mondays_month(12), 5)
