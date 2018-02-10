@@ -59,11 +59,11 @@ def create_month(sheet, month):
         week_list.append(full_week(first_monday + timedelta(days=7 * i)))
 
     event_month = first_monday_month(month).strftime('%B')
-    worksheet = sheet.add_worksheet(title=event_month, rows="70", cols="6")
+    worksheet = sheet.add_worksheet(title=event_month, rows="200", cols="6")
 
     for idx, week in enumerate(week_list):
         for jdx, day in enumerate(week):
-            row = (idx + 1) + 12 * idx
+            row = (idx + 1) + 24 * idx
             worksheet.update_cell(row, jdx+1, day.strftime('%d/%m/%y'))
     return worksheet
 

@@ -64,7 +64,6 @@ class CalendlyEvent:
             self._name = formatted_data['invitee']['name']
             self._date = parse_date(formatted_data)
             self._time_index = time_operations.time_index(self._date.strftime('%H:%M'))
-            #self._event_type = formatted_data['event_type']['slug']
             self._event_type = self.set_event_type(formatted_data)
             return True
         else:
@@ -72,7 +71,8 @@ class CalendlyEvent:
 
     def set_event_type(self, data):
         options = {'15min': 'Surgery',
-                   'mobilehandover': 'Phone'}
+                   'mobilehandover': 'Phone',
+                   'ict-ipad-tablet-handover': 'iPad'}
 
         return options[data['event_type']['slug']]
 
