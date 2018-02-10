@@ -64,4 +64,8 @@ def number_mondays_month(month):
     return count
 
 
-
+def get_month_for_date(date):
+    month = date.month
+    if date < first_monday_month(date.month):
+        month = date.month - 1
+    return month

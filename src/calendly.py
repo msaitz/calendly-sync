@@ -19,13 +19,16 @@ class CalendlyEvent:
     def name(self): return self._name
 
     @property
+    def formatted_date(self): return self._date.strftime('%d/%m/%y')
+
+    @property
     def time(self): return self._date.strftime('%H:%M')
 
     @property
     def day(self): return self._date.strftime('%d')
 
     @property
-    def month(self): return self._date.strftime('%m')
+    def month(self): return int(self._date.strftime('%m'))
 
     @property
     def year(self): return self._date.strftime('%y')
@@ -61,12 +64,21 @@ class CalendlyEvent:
             self._name = formatted_data['invitee']['name']
             self._date = parse_date(formatted_data)
             self._time_index = time_operations.time_index(self._date.strftime('%H:%M'))
-            self._event_type = formatted_data['event_type']['slug']
+            #self._event_type = formatted_data['event_type']['slug']
+            self._event_type = self.set_event_type(formatted_data)
             return True
         else:
             return False
 
+    def set_event_type(self, data):
+        options = {'15min': 'Surgery',
+                   'mobilehandover': 'Phone'}
 
+        return options[data['event_type']['slug']]
+
+    # for testing purposes
+    def change_date(self, new_date):
+        self._date = new_date
 
 
 
