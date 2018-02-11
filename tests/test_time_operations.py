@@ -2,6 +2,7 @@ from src.time_operations import *
 from datetime import datetime
 import unittest
 
+
 class TestTimeOperations(unittest.TestCase):
 
     def test_timeSlot(self):
