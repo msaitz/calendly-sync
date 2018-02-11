@@ -24,6 +24,12 @@ def open_sheet(obj, name, worksheet=None):
 # main function - accepts events and manages its addition to the sheet
 def event_handler(sheet, event):
     adjusted_month = get_month_for_date(event.date)
+
+    if event.is_canceled:
+        print('cancel')
+        cancel_event(sheet, event)
+        return
+
     if not is_month_in_sheet(sheet, adjusted_month):
         month_worksheet = create_month(sheet, adjusted_month)
         # fill month with weeks
@@ -39,6 +45,15 @@ def event_handler(sheet, event):
     # set location:
     row = event_location.row + event.time_index + 1
     month_worksheet.update_cell(row, event_location.col, event.event_type + ': ' + event.name)
+
+
+def cancel_event(sheet, event):
+    adjusted_month = get_month_for_date(event.date)
+    month_string = datetime(datetime.now().year, adjusted_month, 1).strftime('%B')
+    month_worksheet = sheet.worksheet(month_string)
+    event_location = month_worksheet.find(event.formatted_date)
+    row = event_location.row + event.time_index + 1
+    month_worksheet.update_cell(row, event_location.col, '')
 
 
 def is_month_in_sheet(sheet, month):
@@ -66,16 +81,4 @@ def create_month(sheet, month):
             row = (idx + 1) + 24 * idx
             worksheet.update_cell(row, jdx+1, day.strftime('%d/%m/%y'))
     return worksheet
-
-
-def write_event(obj, data):
-    obj.update_cell(1, 1, data)
-    return True
-
-
-def delete_event(obj):
-    obj.update_cell(1, 1, '')
-    pass
-
-
 

@@ -18,10 +18,10 @@ class TestCalendly(unittest.TestCase):
         self.assertEqual(self.event.name, 'Test McTest')
         self.assertEqual(self.event.time, '10:15')
         self.assertEqual(self.event.day, '01')
-        self.assertEqual(self.event.month, '02')
+        self.assertEqual(self.event.month, 2)
         self.assertEqual(self.event.year, '18')
         self.assertEqual(self.event.time_index, 1)
-        self.assertEqual(self.event.event_type, 'mobilehandover')
+        self.assertEqual(self.event.event_type, 'Phone')
 
 
 if __name__ == '__main__':

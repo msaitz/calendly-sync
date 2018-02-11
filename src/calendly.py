@@ -11,12 +11,16 @@ class CalendlyEvent:
         self._date = None
         self._time_index = None
         self._event_type = None
+        self._canceled = False
 
     @property
     def date(self): return self._date
 
     @property
     def name(self): return self._name
+
+    @property
+    def is_canceled(self): return self._canceled
 
     @property
     def formatted_date(self): return self._date.strftime('%d/%m/%y')
@@ -59,12 +63,19 @@ class CalendlyEvent:
     def add_event(self, data):
         formatted_data = parse_raw_data(data)
 
-        if formatted_data['event'] == 'invitee.created':
+        if formatted_data['event']:
             formatted_data = formatted_data['payload']
-            self._name = formatted_data['invitee']['name']
-            self._date = parse_date(formatted_data)
+
+            if formatted_data['invitee']['canceled']:
+                self._date = parse_date(formatted_data, 'canceled')
+                self._canceled = True
+            else:
+                self._date = parse_date(formatted_data, 'create')
+                self._name = formatted_data['invitee']['name']
+                self._event_type = self.set_event_type(formatted_data)
+
             self._time_index = time_operations.time_index(self._date.strftime('%H:%M'))
-            self._event_type = self.set_event_type(formatted_data)
+
             return True
         else:
             return False

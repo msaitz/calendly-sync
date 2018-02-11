@@ -2,7 +2,6 @@ from src.time_operations import *
 from datetime import datetime
 import unittest
 
-
 class TestTimeOperations(unittest.TestCase):
 
     def test_timeSlot(self):
@@ -16,12 +15,12 @@ class TestTimeOperations(unittest.TestCase):
         self.next_monday = datetime(2018, 1, 8)
         self.assertEqual(next_monday(self.day), self.next_monday)
 
+    # test will fail after 2018!
     def test_full_week(self):
-        self.mondayA = datetime(2018, 1, 6)
-        self.mondayB = datetime(2018, 1, 8)
+        self.monday = datetime(2018, 1, 8)
         self.friday = datetime(2018, 1, 12)
-        weekdays = full_week(self.mondayA)
-        self.assertEqual(weekdays[0], self.mondayB)
+        weekdays = full_week(self.monday)
+        self.assertEqual(weekdays[0], self.monday)
         self.assertEqual(weekdays[4], self.friday)
 
     # test will fail after 2018!

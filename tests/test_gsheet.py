@@ -32,13 +32,15 @@ class TestGsheet(unittest.TestCase):
     '''
 
     def test_event_handler(self):
-        event = CalendlyEvent()
-        event.add_event(helpers.load_file('raw_data'))
+        event_create = CalendlyEvent()
+        event_create.add_event(helpers.load_file('raw_data2'))
+        event_cancel = CalendlyEvent()
+        event_cancel.add_event(helpers.load_file('raw_data_cancel'))
 
-        for i in range(12):
-
-            event.change_date(datetime(2018, 1 + i, first_monday_month(1 + i).day + 7))
-            event_handler(self.sheet, event)
+        # add event
+        event_handler(self.sheet, event_create)
+        # remove event
+        event_handler(self.sheet, event_cancel)
 
 
 if __name__ == '__main__':

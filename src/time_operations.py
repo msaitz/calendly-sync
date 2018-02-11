@@ -22,7 +22,7 @@ def time_index(time):
 # returns a list of datetime objects of 5 consecutive days starting from a monday
 def full_week(day):
     if day.weekday() != 0:
-        return -1
+        return []
     return [day + timedelta(i) for i in range(0, 5)]
 
 
