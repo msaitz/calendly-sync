@@ -67,12 +67,12 @@ class CalendlyEvent:
             formatted_data = formatted_data['payload']
 
             if formatted_data['invitee']['canceled']:
-                self._date = parse_date(formatted_data, 'canceled')
+                self._date = parse_date(formatted_data)
                 self._canceled = True
             else:
-                self._date = parse_date(formatted_data, 'create')
+                self._date = parse_date(formatted_data)
                 self._name = formatted_data['invitee']['name']
-                self._event_type = self.set_event_type(formatted_data)
+                self._event_type = self.select_event_type(formatted_data)
 
             self._time_index = time_operations.time_index(self._date.strftime('%H:%M'))
 
@@ -80,7 +80,8 @@ class CalendlyEvent:
         else:
             return False
 
-    def set_event_type(self, data):
+    @staticmethod
+    def select_event_type(data):
         options = {'15min': 'Surgery',
                    'mobilehandover': 'Phone',
                    'ict-ipad-tablet-handover': 'iPad'}

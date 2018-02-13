@@ -23,6 +23,9 @@ class TestCalendly(unittest.TestCase):
         self.assertEqual(self.event.time_index, 1)
         self.assertEqual(self.event.event_type, 'Phone')
 
+    def test_cancel_event(self):
+        self.event.add_event(helpers.load_file('raw_data_cancel_true'))
+
 
 if __name__ == '__main__':
     unittest.main()

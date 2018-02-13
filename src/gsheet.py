@@ -63,7 +63,6 @@ def is_month_in_sheet(sheet, month):
     for worksheet in worksheet_list:
         if worksheet.title == month_str:
             return True
-
     return False
 
 

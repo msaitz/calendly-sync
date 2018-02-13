@@ -11,10 +11,11 @@ def parse_raw_data(data):
 
 
 # slice string, current format is '03:30pm - Friday, January 26, 2018'
-def parse_date(data, webhook_type):
+def parse_date(data):
+    '''
     if webhook_type == 'create':
         event_time = data['event']['start_time']
     else:
-        event_time = data['event']['canceled_at']
-
+    '''
+    event_time = data['event']['start_time']
     return datetime.strptime(event_time, '%Y-%m-%dT%H:%M:%S+00:00')
