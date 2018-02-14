@@ -69,3 +69,8 @@ def get_month_for_date(date):
     if date < first_monday_month(date.month):
         month = date.month - 1
     return month
+
+
+def first_day_week(date):
+    monday = date - timedelta(days=date.weekday())
+    return monday

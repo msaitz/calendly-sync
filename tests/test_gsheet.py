@@ -42,5 +42,6 @@ class TestGsheet(unittest.TestCase):
         # remove event
         event_handler(self.sheet, event_cancel)
 
+
 if __name__ == '__main__':
     unittest.main()

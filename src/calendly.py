@@ -35,6 +35,10 @@ class CalendlyEvent:
     def month(self): return int(self._date.strftime('%m'))
 
     @property
+    def adjusted_month(self):
+        return time_operations.get_month_for_date(self.date)
+
+    @property
     def year(self): return self._date.strftime('%y')
 
     @property

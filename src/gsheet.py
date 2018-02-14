@@ -23,37 +23,55 @@ def open_sheet(obj, name, worksheet=None):
 
 # main function - accepts events and manages its addition to the sheet
 def event_handler(sheet, event):
-    adjusted_month = get_month_for_date(event.date)
-
     if event.is_canceled:
-        print('cancel')
-        cancel_event(sheet, event)
+        modify_event_cell(sheet, event, 'cancel')
         return
+    modify_event_cell(sheet, event, 'add')
 
-    if not is_month_in_sheet(sheet, adjusted_month):
-        month_worksheet = create_month(sheet, adjusted_month)
-        # fill month with weeks
+
+def modify_event_cell(sheet, event, action):
+    if not is_worksheet_in_sheet(sheet, month=event.adjusted_month):
+        month_worksheet = create_month(sheet, event.adjusted_month)
     else:
-        month_string = datetime(datetime.now().year, adjusted_month, 1).strftime('%B')
+        month_string = datetime(datetime.now().year, event.adjusted_month, 1).strftime('%B')
         month_worksheet = sheet.worksheet(month_string)
 
-    # find the event date
-    event_date = event.formatted_date
-    event_location = month_worksheet.find(event_date)
-    # TODO: temporary code!
+    if action == 'cancel':
+        cell_content = ''
+    else:
+        cell_content = event.event_type + ': ' + event.name
 
-    # set location:
-    row = event_location.row + event.time_index + 1
-    month_worksheet.update_cell(row, event_location.col, event.event_type + ': ' + event.name)
-
-
-def cancel_event(sheet, event):
-    adjusted_month = get_month_for_date(event.date)
-    month_string = datetime(datetime.now().year, adjusted_month, 1).strftime('%B')
-    month_worksheet = sheet.worksheet(month_string)
     event_location = month_worksheet.find(event.formatted_date)
     row = event_location.row + event.time_index + 1
-    month_worksheet.update_cell(row, event_location.col, '')
+    month_worksheet.update_cell(row, event_location.col, cell_content)
+
+
+# may not be necessary
+def write_new_worksheet_title(master_worksheet, title):
+    master_worksheet.update_cell(1, 1, title)
+
+
+def generate_event_week_title(sheet, event):
+
+    pass
+
+
+def get_latest_worksheet_week(sheet):
+    worksheets = sheet.worksheets()
+    obj_worksheets = [datetime.strptime(ws.title, '%b %d-%m-%y') for ws in worksheets if ws.title != 'Template']
+    return max(obj_worksheets)
+
+
+def is_worksheet_in_sheet(sheet, date=None, month=None):
+    if month:
+        target_title = datetime(datetime.now().year, month, 1).strftime('%B')
+    else:
+        target_title = date.strftime('%b %d-%m-%y')
+
+    for worksheet in sheet.worksheets():
+        if worksheet.title == target_title:
+            return True
+    return False
 
 
 def is_month_in_sheet(sheet, month):
