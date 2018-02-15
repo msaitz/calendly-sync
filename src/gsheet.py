@@ -1,6 +1,7 @@
 from src.time_operations import *
 from datetime import datetime, timedelta
 from oauth2client.service_account import ServiceAccountCredentials
+import time
 import gspread
 import helpers
 
@@ -26,7 +27,7 @@ def event_handler(sheet, event):
     if event.is_canceled:
         modify_event_cell(sheet, event, 'cancel')
         return
-    modify_event_cell(sheet, event, 'add')
+    modify_event_cell_final(sheet, event, 'add')
 
 
 def modify_event_cell(sheet, event, action):
@@ -46,24 +47,43 @@ def modify_event_cell(sheet, event, action):
     month_worksheet.update_cell(row, event_location.col, cell_content)
 
 
-# may not be necessary
-def write_new_worksheet_title(master_worksheet, title):
-    master_worksheet.update_cell(1, 1, title)
-
-
 def modify_event_cell_final(sheet, event, action):
-    if not is_worksheet_in_sheet(sheet, mont=event.adjusted_month)
-        month_worksheet = create_week(sheet, event.adjusted_month)
-    else:
+    formatted_title = first_day_week(event).strftime('%b %d-%m-%y')
 
+    if not is_worksheet_in_sheet(sheet, date=event.date):
+        week_worksheet = create_week_workbook(sheet, formatted_title)
+        update_worksheet_info(week_worksheet, first_day_week(event))
+    else:
+        week_worksheet = sheet.worksheet(formatted_title)
+
+    if action == 'cancel':
+        cell_content = ''
+    else:
+        cell_content = event.event_type + ': ' + event.name
+
+    row_distance = 10
+    col_distance = 11
+    event_location = week_worksheet.find(event.date.strftime('ICT Surgery'))
+    adjusted_row = event_location.wor + row_distance
+    adjusted_col = event_location.col + col_distance
+
+    week_worksheet.update_cell(adjusted_row + (adjusted_col*event.date.weekday()+1), cell_content)
 
 
 def update_worksheet_info(worksheet, starting_day):
     pass
 
 
-def trigger_template_duplication(worksheet, starting_day):
-    pass
+def create_week_workbook(sheet, starting_day_string):
+    template = sheet.worksheet('Template')
+    template.update_cell(64, 1, starting_day_string)
+
+    # waiting time for the sheet to run the script
+    time.sleep(61)
+
+    client = authenticate()
+    updated_sheet = open_sheet(client, 'Telephone Rota 2018')
+    return updated_sheet.worksheet(starting_day_string)
 
 
 def generate_event_week_title(event):
@@ -113,7 +133,4 @@ def create_month(sheet, month):
             row = (idx + 1) + 24 * idx
             worksheet.update_cell(row, jdx+1, day.strftime('%d/%m/%y'))
     return worksheet
-
-def create_week(sheet, starting_day):
-    pass
 
