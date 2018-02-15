@@ -48,11 +48,11 @@ def modify_event_cell(sheet, event, action):
 
 
 def modify_event_cell_final(sheet, event, action):
-    formatted_title = first_day_week(event).strftime('%b %d-%m-%y')
+    formatted_title = first_day_week(event.date).strftime('%b %d-%m-%y')
 
     if not is_worksheet_in_sheet(sheet, date=event.date):
         week_worksheet = create_week_workbook(sheet, formatted_title)
-        update_worksheet_info(week_worksheet, first_day_week(event))
+        update_worksheet_info(week_worksheet, first_day_week(event.date))
     else:
         week_worksheet = sheet.worksheet(formatted_title)
 
