@@ -51,9 +51,24 @@ def write_new_worksheet_title(master_worksheet, title):
     master_worksheet.update_cell(1, 1, title)
 
 
-def generate_event_week_title(sheet, event):
+def modify_event_cell_final(sheet, event, action):
+    if not is_worksheet_in_sheet(sheet, mont=event.adjusted_month)
+        month_worksheet = create_week(sheet, event.adjusted_month)
+    else:
 
+
+
+def update_worksheet_info(worksheet, starting_day):
     pass
+
+
+def trigger_template_duplication(worksheet, starting_day):
+    pass
+
+
+def generate_event_week_title(event):
+    monday = first_day_week(event.date)
+    return monday.strftime('%b %d-%m-%y')
 
 
 def get_latest_worksheet_week(sheet):
@@ -98,4 +113,7 @@ def create_month(sheet, month):
             row = (idx + 1) + 24 * idx
             worksheet.update_cell(row, jdx+1, day.strftime('%d/%m/%y'))
     return worksheet
+
+def create_week(sheet, starting_day):
+    pass
 
